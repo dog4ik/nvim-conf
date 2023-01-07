@@ -9,6 +9,7 @@ vim.opt.expandtab = true
 vim.opt.cindent = true
 
 vim.opt.incsearch = true
+vim.opt.hlsearch = false
 
 vim.opt.termguicolors = true 
 

@@ -43,5 +43,5 @@ use {
 }
 use('mbbill/undotree')
 use('tpope/vim-fugitive')
-use {"akinsho/toggleterm.nvim"}
+use('theprimeagen/harpoon')
 end)
