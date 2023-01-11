@@ -1,7 +1,15 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 lsp.ensure_installed({'tsserver','sumneko_lua','rust_analyzer'})
-
+lsp.configure('sumneko_lua', {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+})
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
