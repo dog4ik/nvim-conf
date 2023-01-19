@@ -1,3 +1,4 @@
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
@@ -11,7 +12,7 @@ null_ls.setup({
         group = augroup,
         buffer = bufnr,
         callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr }) 
+          vim.lsp.buf.format({ bufnr = bufnr , filter = function(client) return client.name ~= "tsserver" end }) 
         end,
       })
     end
