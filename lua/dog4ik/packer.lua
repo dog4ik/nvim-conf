@@ -45,4 +45,7 @@ use {
 use('mbbill/undotree')
 use('tpope/vim-fugitive')
 use('theprimeagen/harpoon')
+use {
+  'nvim-lualine/lualine.nvim',
+}
 end)
