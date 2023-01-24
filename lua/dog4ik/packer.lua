@@ -45,7 +45,7 @@ use {
 use('mbbill/undotree')
 use('tpope/vim-fugitive')
 use('theprimeagen/harpoon')
-use {
-  'nvim-lualine/lualine.nvim',
-}
+use ('nvim-lualine/lualine.nvim')
+use ('windwp/nvim-ts-autotag')
+use ("windwp/nvim-autopairs")
 end)
