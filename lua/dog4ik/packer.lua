@@ -47,5 +47,8 @@ use('tpope/vim-fugitive')
 use('theprimeagen/harpoon')
 use ('nvim-lualine/lualine.nvim')
 use ('windwp/nvim-ts-autotag')
-use ("windwp/nvim-autopairs")
+use {
+	"windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+}
 end)
