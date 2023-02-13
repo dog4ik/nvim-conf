@@ -1,7 +1,7 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
-lsp.ensure_installed({'tsserver','sumneko_lua','rust_analyzer'})
-lsp.configure('sumneko_lua', {
+lsp.ensure_installed({'tsserver','lua_ls','rust_analyzer'})
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
@@ -10,7 +10,6 @@ lsp.configure('sumneko_lua', {
         }
     }
 })
-
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
