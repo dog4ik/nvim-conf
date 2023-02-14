@@ -10,6 +10,17 @@ lsp.configure('lua_ls', {
         }
     }
 })
+lsp.configure('ltex', {
+  settings = {
+    ltex = {
+      disabledRules = {
+        ["en-US"] = {
+          "UPPERCASE_SENTENCE_START"
+        }
+      }
+    }
+  }
+})
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -33,8 +44,8 @@ lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
   if client.name == "eslint" then
-      vim.cmd.LspStop('eslint')
-      return
+    vim.cmd.LspStop('eslint')
+    return
   end
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -51,5 +62,5 @@ end)
 
 lsp.setup()
 vim.diagnostic.config({
-    virtual_text = true,
+  virtual_text = true,
 })
