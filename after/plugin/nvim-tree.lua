@@ -1,7 +1,10 @@
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   update_focused_file={enable=true},
-  git={ignore=false}
+  git={ignore=false},
+  filters={
+    custom={ '\\.git', 'node_modules' }
+  }
 })
 
 local function open_nvim_tree(data)
