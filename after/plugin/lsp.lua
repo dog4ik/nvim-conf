@@ -1,4 +1,5 @@
 local lsp = require('lsp-zero')
+local luasnip = require('luasnip')
 lsp.preset('recommended')
 lsp.ensure_installed({'tsserver','lua_ls','rust_analyzer'})
 lsp.configure('lua_ls', {
@@ -32,8 +33,24 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 
 -- disable completion with tab
 -- this helps with copilot setup
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
+-- cmp_mappings['<Tab>'] = nil
+-- cmp_mappings['<S-Tab>'] = nil
+
+-- luasnip
+cmp_mappings['<Tab>'] = function(fallback)
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
+end
+cmp_mappings['<S-Tab>'] = function(fallback)
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
+end
 
 lsp.setup_nvim_cmp({
   mapping = cmp_mappings
