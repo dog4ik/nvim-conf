@@ -47,6 +47,7 @@ use('tpope/vim-fugitive')
 use('theprimeagen/harpoon')
 use ('nvim-lualine/lualine.nvim')
 use ('windwp/nvim-ts-autotag')
+use ('wuelnerdotexe/vim-astro')
 use {
 	"windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
