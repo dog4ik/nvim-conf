@@ -32,7 +32,10 @@ null_ls.setup({
         group = augroup,
         buffer = bufnr,
         callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr , filter = function(client) return client.name ~= "tsserver" end }) 
+          vim.lsp.buf.format({ bufnr = bufnr , filter = function(client)
+            return client.name == "null-ls" and client.name ~= "tsserver" end
+          }
+            )
         end,
       })
     end
