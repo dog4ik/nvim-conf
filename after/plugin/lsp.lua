@@ -14,6 +14,13 @@ lsp.configure("lua_ls", {
 		},
 	},
 })
+lsp.configure("yamlls", {
+	settings = {
+		yaml = {
+			keyOrdering = false,
+		},
+	},
+})
 lsp.configure("ltex", {
 	settings = {
 		ltex = {
