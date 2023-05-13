@@ -3,7 +3,6 @@ require("neodev").setup({
 })
 -- TODO: move away from lsp-zero
 local lsp = require("lsp-zero")
-local luasnip = require("luasnip")
 lsp.preset("recommended")
 lsp.ensure_installed({ "tsserver", "lua_ls", "rust_analyzer" })
 lsp.configure("lua_ls", {
@@ -33,40 +32,6 @@ lsp.configure("ltex", {
 		},
 	},
 })
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-	["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-	["<C-y>"] = cmp.mapping.confirm({ select = true }),
-	["<C-Space>"] = cmp.mapping.complete(),
-})
-
--- disable completion with tab
--- this helps with copilot setup
--- cmp_mappings['<Tab>'] = nil
--- cmp_mappings['<S-Tab>'] = nil
-
--- luasnip
-cmp_mappings["<Tab>"] = function(fallback)
-	if luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-	else
-		fallback()
-	end
-end
-cmp_mappings["<S-Tab>"] = function(fallback)
-	if luasnip.jumpable(-1) then
-		luasnip.jump(-1)
-	else
-		fallback()
-	end
-end
-
-lsp.setup_nvim_cmp({
-	mapping = cmp_mappings,
-})
-
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 
@@ -98,6 +63,34 @@ lsp.format_on_save({
 })
 
 lsp.setup()
+
+local cmp = require("cmp")
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+local cmp_mappings = lsp.defaults.cmp_mappings({
+	["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+	["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+	["<CR>"] = cmp.mapping.confirm({ select = true }),
+	["<C-Space>"] = cmp.mapping.complete(),
+})
+
+-- disable completion with tab
+-- this helps with copilot setup
+-- cmp_mappings['<Tab>'] = nil
+-- cmp_mappings['<S-Tab>'] = nil
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
+cmp.setup({
+	sources = {
+		{ name = "path" },
+		{ name = "nvim_lsp" },
+		{ name = "buffer", keyword_length = 3 },
+		{ name = "luasnip", keyword_length = 2 },
+	},
+
+	mapping = cmp_mappings,
+})
+
 vim.diagnostic.config({
 	virtual_text = true,
 })
