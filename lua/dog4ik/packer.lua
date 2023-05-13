@@ -10,6 +10,8 @@ return require("packer").startup(function(use)
 		"rose-pine/neovim",
 		as = "rose-pine",
 	})
+	use({ "navarasu/onedark.nvim", as = "onedark" })
+	use({ "catppuccin/nvim", as = "catppuccin" })
 	use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
 	use({
 		"VonHeikemen/lsp-zero.nvim",
