@@ -1,6 +1,7 @@
 require("neodev").setup({
 	-- add any options here, or leave empty to use the default settings
 })
+-- TODO: move away from lsp-zero
 local lsp = require("lsp-zero")
 local luasnip = require("luasnip")
 lsp.preset("recommended")
@@ -69,10 +70,7 @@ lsp.setup_nvim_cmp({
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 
-	if client.name == "eslint" then
-		vim.cmd.LspStop("eslint")
-		return
-	end
+	lsp.skip_server_setup({ "eslint" })
 
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -85,6 +83,18 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 end)
+
+lsp.format_on_save({
+	format_opts = {
+		async = false,
+		timeout_ms = 10000,
+	},
+	servers = {
+		["rust_analyzer"] = { "rust" },
+		["astro"] = { "astro" },
+		["null-ls"] = { "javascript", "typescript", "lua", "php" },
+	},
+})
 
 lsp.setup()
 vim.diagnostic.config({
