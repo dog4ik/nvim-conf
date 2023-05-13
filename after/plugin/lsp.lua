@@ -91,6 +91,7 @@ lsp.format_on_save({
 	},
 	servers = {
 		["rust_analyzer"] = { "rust" },
+		["gopls"] = { "go" },
 		["astro"] = { "astro" },
 		["null-ls"] = { "javascript", "typescript", "lua", "php" },
 	},
