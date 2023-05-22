@@ -58,7 +58,8 @@ lsp.format_on_save({
 		["rust_analyzer"] = { "rust" },
 		["gopls"] = { "go" },
 		["astro"] = { "astro" },
-		["null-ls"] = { "javascript", "typescript", "lua", "php" },
+		["prismals"] = { "prisma" },
+		["null-ls"] = { "javascript", "typescript", "typescriptreact", "lua", "php", "markdown", "json", "css" },
 	},
 })
 
