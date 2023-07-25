@@ -20,6 +20,9 @@ require("catppuccin").setup({
 		gitsigns = true,
 		nvimtree = true,
 		telescope = true,
+		harpoon = true,
+		mason = true,
+		treesitter = true,
 		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 	},
 })
