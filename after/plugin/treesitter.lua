@@ -21,6 +21,17 @@ require("nvim-treesitter.configs").setup({
 	-- Automatically install missing parsers when entering buffer
 	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
 	auto_install = false,
+	indent = { enable = true },
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<c-space>",
+			node_incremental = "<c-space>",
+			scope_incremental = "<c-s>",
+			node_decremental = "<M-space>",
+		},
+	},
+
 	autotag = {
 		enable = true,
 	},
