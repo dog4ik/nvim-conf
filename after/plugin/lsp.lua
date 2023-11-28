@@ -95,4 +95,16 @@ cmp.setup({
 
 vim.diagnostic.config({
 	virtual_text = true,
+  signs = false,
+})
+
+local dog4ik_group = vim.api.nvim_create_augroup("dog4ik", {})
+
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufLeave", {
+	group = dog4ik_group,
+	pattern = "*",
+	callback = function()
+		vim.cmd(":wall")
+	end,
 })
