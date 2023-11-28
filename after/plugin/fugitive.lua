@@ -1,10 +1,10 @@
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
-local Dog4ik_Fugitive = vim.api.nvim_create_augroup("Dog4ik_Fugitive", {})
+local dog4ikFugitive = vim.api.nvim_create_augroup("dog4ikFugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
 autocmd("BufWinEnter", {
-	group = Dog4ik_Fugitive,
+	group = dog4ikFugitive,
 	pattern = "*",
 	callback = function()
 		if vim.bo.ft ~= "fugitive" then
@@ -28,5 +28,5 @@ autocmd("BufWinEnter", {
 	end,
 })
 
-vim.keymap.set("n", "gu", "<cmd>diffget //2CR>")
+vim.keymap.set("n", "gu", "<cmd>diffget //2<CR>")
 vim.keymap.set("n", "gh", "<cmd>diffget //3<CR>")
