@@ -46,22 +46,23 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
 	vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
 	vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+	vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
 	vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 end)
 
-lsp.format_on_save({
-	format_opts = {
-		async = false,
-		timeout_ms = 10000,
-	},
-	servers = {
-		["rust_analyzer"] = { "rust" },
-		["gopls"] = { "go" },
-		["astro"] = { "astro" },
-		["prismals"] = { "prisma" },
-		["null-ls"] = { "javascript", "typescript", "typescriptreact", "lua", "php", "markdown", "json", "css" },
-	},
-})
+-- lsp.format_on_save({
+-- 	format_opts = {
+-- 		async = false,
+-- 		timeout_ms = 10000,
+-- 	},
+-- 	servers = {
+-- 		["rust_analyzer"] = { "rust" },
+-- 		["gopls"] = { "go" },
+-- 		["astro"] = { "astro" },
+-- 		["prismals"] = { "prisma" },
+-- 		["null-ls"] = { "javascript", "typescript", "typescriptreact", "lua", "php", "markdown", "json", "css", "html" },
+-- 	},
+-- })
 
 lsp.setup()
 
