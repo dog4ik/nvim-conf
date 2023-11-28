@@ -41,4 +41,10 @@ require("nvim-treesitter.configs").setup({
 
 		additional_vim_regex_highlighting = false,
 	},
+	refactor = {
+		highlight_definitions = {
+			enable = true,
+			clear_on_cursor_move = true,
+		},
+	},
 })
