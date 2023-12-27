@@ -3,8 +3,14 @@ require("neodev").setup({
 })
 -- TODO: move away from lsp-zero
 local lsp = require("lsp-zero")
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {'tsserver', 'rust_analyzer'},
+  handlers = {
+    lsp.default_setup,
+  },
+})
 lsp.preset("recommended")
-lsp.ensure_installed({ "tsserver", "lua_ls", "rust_analyzer" })
 lsp.configure("lua_ls", {
 	settings = {
 		Lua = {
@@ -34,8 +40,6 @@ lsp.configure("ltex", {
 })
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
-
-	lsp.skip_server_setup({ "eslint" })
 
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
