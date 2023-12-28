@@ -27,17 +27,6 @@ lsp.configure("yamlls", {
 		},
 	},
 })
-lsp.configure("ltex", {
-	settings = {
-		ltex = {
-			disabledRules = {
-				["en-US"] = {
-					"UPPERCASE_SENTENCE_START",
-				},
-			},
-		},
-	},
-})
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 
