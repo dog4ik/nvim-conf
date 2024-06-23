@@ -1,11 +1,12 @@
 require("rose-pine").setup({
-	--- @usage 'main' | 'moon'
+	--- @usage 'main' | 'moon' | 'dawn'
 	dark_variant = "moon",
-	bold_vert_split = false,
-	dim_nc_background = false,
-	disable_background = true,
-	disable_float_background = false,
-	disable_italics = true,
+  dim_inactive_windows = false,
+  extend_background_behind_borders = true,
+  styles = {
+    transparency = true,
+    bold = true,
+  },
 })
 require("onedark").setup({
 	style = "cool",
