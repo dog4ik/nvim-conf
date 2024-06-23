@@ -1,91 +1,121 @@
 require("neodev").setup({
 	-- add any options here, or leave empty to use the default settings
 })
--- TODO: move away from lsp-zero
-local lsp = require("lsp-zero")
+
 require('mason').setup({})
+
+vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>') 
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = {buffer = event.buf}
+
+    -- these will be buffer-local keybindings
+    -- because they only work if you have an active language server
+
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.keymap.set('n', 'vrn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.keymap.set('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set('n', 'vca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  end
+})
+
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+local lsp = require('lspconfig')
+
+local default_setup = function(server)
+  lsp[server].setup({
+    capabilities = lsp_capabilities,
+  })
+end
+
+local lua_setup = function ()
+  lsp.lua_ls.setup({
+    capabilities = lsp_capabilities,
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT'
+        },
+        diagnostics = {
+          globals = {'vim'},
+        },
+        workspace = {
+          library = {
+            vim.env.VIMRUNTIME,
+          }
+        }
+      }
+    }
+  })
+end
+
+local tsserver_setup = function ()
+  lsp.tsserver.setup({
+    capabilities = lsp_capabilities,
+    settings = {
+      typescript = {
+        format = {
+          enable = false,
+        }
+      },
+      javascript = {
+        format = {
+          enable = false,
+        }
+      }
+    },
+    on_attach = function(client, _)
+      client.server_capabilities.documentFormattingProvider = false
+    end
+  })
+end
+
+
 require('mason-lspconfig').setup({
   ensure_installed = {'tsserver', 'rust_analyzer'},
   handlers = {
-    lsp.default_setup,
+    default_setup,
+    lua_ls = lua_setup,
+    tsserver = tsserver_setup,
   },
 })
-lsp.preset("recommended")
-lsp.configure("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
-lsp.configure("yamlls", {
-	settings = {
-		yaml = {
-			keyOrdering = false,
-		},
-	},
-})
-lsp.on_attach(function(client, bufnr)
-	local opts = { buffer = bufnr, remap = false }
 
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-	vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "[d",
-    function() vim.diagnostic.goto_prev({ severity = vim.lsp.protocol.DiagnosticSeverity.Error }) end, opts)
-  vim.keymap.set("n", "]d",
-    function() vim.diagnostic.goto_next({ severity = vim.lsp.protocol.DiagnosticSeverity.Error }) end, opts)
-	vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
-	vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-	vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
-	vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-end)
+local cmp = require('cmp')
 
--- lsp.format_on_save({
--- 	format_opts = {
--- 		async = false,
--- 		timeout_ms = 10000,
--- 	},
--- 	servers = {
--- 		["rust_analyzer"] = { "rust" },
--- 		["gopls"] = { "go" },
--- 		["astro"] = { "astro" },
--- 		["prismals"] = { "prisma" },
--- 		["null-ls"] = { "javascript", "typescript", "typescriptreact", "lua", "php", "markdown", "json", "css", "html" },
--- 	},
--- })
-
-lsp.setup()
-
-local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
+
+local cmp_mappings = cmp.mapping.preset.insert({
 	["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
 	["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
 	["<CR>"] = cmp.mapping.confirm({ select = true }),
 	["<C-Space>"] = cmp.mapping.complete(),
 })
 
--- disable completion with tab
--- this helps with copilot setup
--- cmp_mappings['<Tab>'] = nil
--- cmp_mappings['<S-Tab>'] = nil
-
 require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
-	sources = {
+  sources = {
 		{ name = "path" },
 		{ name = "nvim_lsp" },
 		-- { name = "buffer", keyword_length = 3 },
 		{ name = "luasnip", keyword_length = 2 },
-	},
-
-	mapping = cmp_mappings,
+  },
+  mapping = cmp_mappings,
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
 })
 
 vim.diagnostic.config({
@@ -93,13 +123,11 @@ vim.diagnostic.config({
   signs = false,
 })
 
-local dog4ik_group = vim.api.nvim_create_augroup("dog4ik", {})
-
-local autocmd = vim.api.nvim_create_autocmd
-autocmd("BufLeave", {
-	group = dog4ik_group,
-	pattern = "*",
-	callback = function()
-		vim.cmd(":wall")
-	end,
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
 })
