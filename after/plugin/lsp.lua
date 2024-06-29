@@ -32,6 +32,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lsp = require('lspconfig')
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
+require("lspconfig.ui.windows").default_options.border = "rounded"
+
 local default_setup = function(server)
   lsp[server].setup({
     capabilities = lsp_capabilities,
