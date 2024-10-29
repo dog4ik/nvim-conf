@@ -9,4 +9,5 @@ return {
 	},
 	{ "navarasu/onedark.nvim", name = "onedark" },
 	{ "catppuccin/nvim", name = "catppuccin" },
+  { "slugbyte/lackluster.nvim", name = "lackluster" },
 }

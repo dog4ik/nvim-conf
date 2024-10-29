@@ -31,7 +31,7 @@ return {
       }
 
       require("dapui").setup()
-      require("nvim-dap-virtual-text").setup()
+      require("nvim-dap-virtual-text").setup({})
       vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
       vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)
       vim.keymap.set("n", "<leader>?", function()

@@ -8,10 +8,6 @@ require("rose-pine").setup({
     bold = true,
   },
 })
-require("onedark").setup({
-	style = "cool",
-	transparent = true,
-})
 require("catppuccin").setup({
 	flavour = "mocha", -- latte, frappe, macchiato, mocha
 	transparent_background = true,
@@ -27,9 +23,20 @@ require("catppuccin").setup({
 		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 	},
 })
+require("lackluster").setup({
+  tweak_background = {
+    normal = 'none',
+    telescope = 'none',
+    menu = 'none',
+    popup = 'none',
+  },
+})
 
 function MyColors(color)
-	color = color or "catppuccin" or "onedark" or "rose-pine" or "tokyonight-night"
+	color = color
+  or "rose-pine"
+  or "lackluster-hack"
+  or "catppuccin"
 	vim.cmd.colorscheme(color)
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
