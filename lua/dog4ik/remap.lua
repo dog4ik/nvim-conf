@@ -14,3 +14,6 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("x", "<leader>p", '"_dP')
 
 vim.keymap.set("n", "<leader>s", vim.cmd.w)
+
+vim.keymap.set("n", "gu", "<cmd>diffget //2<CR>")
+vim.keymap.set("n", "gh", "<cmd>diffget //3<CR>")
