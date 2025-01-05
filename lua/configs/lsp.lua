@@ -61,13 +61,6 @@ local lua_setup = function()
   })
 end
 
-local rust_setup = function()
-  lsp.rust_analyzer.setup({
-    capabilities = lsp_capabilities,
-    cmd = { "/home/dog4ik/.rustup/toolchains/nightly-2024-07-23-x86_64-unknown-linux-gnu/bin/rust-analyzer" }
-  })
-end
-
 local tsserver_setup = function()
   lsp.ts_ls.setup({
     capabilities = lsp_capabilities,
